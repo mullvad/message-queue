@@ -19,7 +19,25 @@ jobs:
                 assignees: [user.login],
               })
             }
+      - name: Slack Notification
+        if: ${{ github.event_name == 'pull_request' && github.event.action == 'opened' }}
+        env:
+          repo: ${{ github.event.pull_request.base.repo.name }}
+          userName: ${{ github.event.pull_request.user.login }}
+          pullUrl: ${{ github.event.pull_request.html_url }}
+          title: ${{ github.event.pull_request.title }}
+        run: |
+          curl -s -X POST https://slack.com/api/chat.postMessage \
+            -H "Authorization: Bearer ${{ secrets.SLACK_OAUTH_TOKEN }}" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d '{
+                  "channel": "C01HSS5S7KL",
+                  "username": "Gittan",
+                  "icon_url": "https://avatars.githubusercontent.com/u/10848549?v=4",
+                  "text": "*${{ env.userName }}* created <${{ env.pullUrl }}|${{ env.title }}> in *${{ env.repo }}*",
+                }'
       - name: Add to project board
+        if: ${{ github.event.pull_request.user.type == 'User' }}
         env:
           GITHUB_TOKEN: ${{ secrets.PROJECT_TOKEN }}
           PR_ID: ${{ github.event.pull_request.node_id }}
