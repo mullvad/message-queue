@@ -1,4 +1,4 @@
-name: Add PR to project
+name: Bookkeeping
 on:
   pull_request:
     types: [opened, reopened, ready_for_review]
