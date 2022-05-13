@@ -1,0 +1,4 @@
+[carbon ".github/workflows/yamllint.yaml"]
+	sourceRepository = ssh://git@github.com/mullvad/services-template.git
+[carbon ".yamllint.yaml"]
+	sourceRepository = ssh://git@github.com/mullvad/services-template.git

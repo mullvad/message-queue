@@ -12,12 +12,12 @@ jobs:
     name: Hadolint
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: hadolint/hadolint-action@v1.6.0
-      with:
-        dockerfile: Dockerfile
-        ignore: DL3008
-        # We do not currently pin versions of apt packages.
+      - uses: actions/checkout@v2
+      - uses: hadolint/hadolint-action@v1.6.0
+        with:
+          dockerfile: Dockerfile
+          ignore: DL3008
+          # We do not currently pin versions of apt packages.
 
   docker:
     name: "Build'n'push"
