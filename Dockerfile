@@ -1,5 +1,5 @@
 # Golang build step / Debian Buster 21.01 / Golang 1.15.7
-FROM golang:1.17.6@sha256:8fb6a244eeea71ca938a47eb046a39999a96ad43a0a69bf4275463df135bdc95 AS gobuilder
+FROM golang:1.19.0@sha256:d72a2944621f0f4027983e094bdf9464d26459c17efe732320043b84c91e51e7 AS gobuilder
 ARG version
 ARG branch
 ARG revision
