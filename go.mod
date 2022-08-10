@@ -3,7 +3,7 @@ module github.com/mullvad/message-queue
 go 1.13
 
 require (
-	github.com/gorilla/mux v1.7.3
+	github.com/gorilla/mux v1.8.0
 	github.com/infosum/statsd v2.1.2+incompatible
 	github.com/jamiealquiza/envy v1.1.0
 	github.com/mediocregopher/radix/v3 v3.4.0
