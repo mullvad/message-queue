@@ -7,7 +7,7 @@ require (
 	github.com/infosum/statsd v2.1.2+incompatible
 	github.com/jamiealquiza/envy v1.1.0
 	github.com/mediocregopher/radix/v3 v3.8.1
-	github.com/prometheus/client_golang v1.13.0
+	github.com/prometheus/client_golang v1.14.0
 	nhooyr.io/websocket v1.8.7
 )
 
@@ -18,7 +18,7 @@ require (
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/klauspost/compress v1.10.3 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.1 // indirect
-	github.com/prometheus/client_model v0.2.0 // indirect
+	github.com/prometheus/client_model v0.3.0 // indirect
 	github.com/prometheus/common v0.37.0 // indirect
 	github.com/prometheus/procfs v0.8.0 // indirect
 	github.com/spf13/cobra v0.0.5 // indirect
