@@ -141,19 +141,16 @@ func main() {
 	}()
 
 	// Expose prometheus metrics
-	go func() {
-		log.Printf("Exposing metrics on port 9999")
-		server := http.NewServeMux()
-		server.Handle("/metrics", promhttp.Handler())
-		log.Fatal(http.ListenAndServe(":9999", server))
-	}()
+	log.Printf("Exposing metrics on port 9999")
+	startMetricsServer(":9999")
 
 	// Start and listen on http
 	api := api.New(q)
 
 	server := &http.Server{
-		Addr:    *listen,
-		Handler: api.Router(),
+		Addr:              *listen,
+		Handler:           api.Router(),
+		ReadHeaderTimeout: 5 * time.Second,
 	}
 
 	go func() {
@@ -216,6 +213,17 @@ func channelWorker(ctx context.Context, in <-chan []byte, out chan<- []byte) {
 
 func collectMetrics() {
 	metrics.Gauge("subscribers", q.SubscriberCount())
+}
+
+func startMetricsServer(addr string) {
+	mux := http.NewServeMux()
+	mux.Handle("/metrics", promhttp.Handler())
+	server := &http.Server{
+		Addr:              addr,
+		Handler:           mux,
+		ReadHeaderTimeout: 5 * time.Second,
+	}
+	go func() { log.Fatal(server.ListenAndServe()) }()
 }
 
 func waitForInterrupt(ctx context.Context) error {
