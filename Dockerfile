@@ -8,7 +8,7 @@ WORKDIR /message-queue
 RUN go install -v -ldflags="-X 'main.Branch=${branch}' -X 'main.Revision=${revision}' -X 'main.Version=${version}'" ./...
 
 # Copy message-queue binary
-FROM docker.io/library/debian:bullseye-slim@sha256:98de137b613dfc97f6b1eaa2f2d0a167eec4c5b72e2a34fd215aa51c3dcc3a86
+FROM docker.io/library/debian:bullseye-slim@sha256:171530d298096f0697da36b3324182e872db77c66452b85783ea893680cc1b62
 WORKDIR /app
 COPY --from=gobuilder /go/bin/message-queue .
 EXPOSE 8080
