@@ -12,12 +12,10 @@ import (
 // Both the sentinels and the redis servers should have authentication enabled, with the password "foobar"
 
 const (
-	sentinelService = "group"
-	sentinelAddress = "redis://:foobar@127.0.0.1:26379"
-	redisAddress    = "redis://127.0.0.1:6379"
-	redisPassword   = "foobar"
-	channel         = "test"
-	message         = "foobar"
+	redisAddress  = "redis://127.0.0.1:6379"
+	redisPassword = "p4ssw0rd"
+	channel       = "test"
+	message       = "foobar"
 )
 
 func TestPubSub(t *testing.T) {
@@ -25,27 +23,7 @@ func TestPubSub(t *testing.T) {
 		t.Skip("skipping integration tests")
 	}
 
-	// Bypass sentinel and connect directly to the redis server
 	p, err := pubsub.New(redisAddress, redisPassword)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	defer p.Shutdown()
-
-	ch, err := p.Subscribe(channel)
-	if err != nil {
-		t.Fatal(err)
-	}
-	assertReceiveMessages(t, ch)
-}
-
-func TestPubSubWithSentinel(t *testing.T) {
-	if testing.Short() {
-		t.Skip("skipping integration tests")
-	}
-
-	p, err := pubsub.NewWithSentinel(sentinelService, []string{sentinelAddress}, redisPassword)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -76,14 +54,7 @@ func assertReceiveMessages(t *testing.T, ch <-chan []byte) {
 func sendMessage(t *testing.T) {
 	t.Helper()
 
-	s, err := radix.NewSentinel(sentinelService, []string{sentinelAddress})
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	addr, _ := s.Addrs()
-
-	conn, err := radix.Dial("tcp", addr, radix.DialAuthPass(redisPassword))
+	conn, err := radix.Dial("tcp", redisAddress, radix.DialAuthPass(redisPassword))
 	if err != nil {
 		t.Fatal(err)
 	}

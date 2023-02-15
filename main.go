@@ -60,10 +60,8 @@ func main() {
 	// Set up commandline flags
 	listen := flag.String("listen", ":8080", "listen address")
 	bufferSize := flag.Int("buffer-size", 100, "client buffer size")
-	redisSentinelService := flag.String("redis-sentinel-service", "", "redis sentinel service name")
-	redisSentinelAddrs := flag.String("redis-sentinel-addresses", "", "comma-delimited list of redis sentinel addresses, may contain authentication details")
-	redisServerAddress := flag.String("redis-server-address", "", "address for the redis server to connect to redis directly (without redis sentinel)")
-	redisPassword := flag.String("redis-server-password", "", "password for the redis servers managed by redis sentinel")
+	redisAddress := flag.String("redis-address", "", "address of the redis server")
+	redisPassword := flag.String("redis-password", "", "password for the redis server")
 	channels := flag.String("channels", "", "comma-delimited list of channels to listen and broadcast to")
 	statsdAddress := flag.String("statsd-address", "127.0.0.1:8125", "statsd address to send metrics to")
 
@@ -72,20 +70,6 @@ func main() {
 
 	// Parse commandline flags
 	flag.Parse()
-
-	if *redisSentinelAddrs == "" && *redisServerAddress == "" {
-		log.Fatalf("either '-redis-sentinel-addresses' or '-redis-server-address' is required")
-	}
-
-	if *redisSentinelAddrs != "" && *redisServerAddress != "" {
-		log.Fatalf("'-redis-sentinel-addresses' and '-redis-server-address' are incompatible")
-	}
-
-	if *redisSentinelAddrs != "" && *redisSentinelService == "" {
-		log.Fatalf("'-redis-sentinel-service' is required when using redis sentinel")
-	}
-
-	redisSentinelAddrList := strings.Split(*redisSentinelAddrs, ",")
 
 	if *channels == "" {
 		log.Fatalf("no channels configured")
@@ -108,11 +92,7 @@ func main() {
 	defer shutdown()
 
 	// Set up the pubsub listener
-	if *redisSentinelService != "" {
-		p, err = pubsub.NewWithSentinel(*redisSentinelService, redisSentinelAddrList, *redisPassword)
-	} else {
-		p, err = pubsub.New(*redisServerAddress, *redisPassword)
-	}
+	p, err = pubsub.New(*redisAddress, *redisPassword)
 	if err != nil {
 		log.Fatal("error initializing pubsub: ", err)
 	}
