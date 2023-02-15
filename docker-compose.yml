@@ -1,0 +1,23 @@
+version: '3.5'
+services:
+  message-queue:
+    build: .
+    ports:
+      - '127.0.0.1:8080:8080'
+      - '127.0.0.1:9999:9999'
+    command:
+      - ./message-queue
+      - -redis-address=redis-server:6379
+      - -redis-password=p4ssw0rd
+      - -redis-tls
+      - -channels=foobar
+    depends_on:
+      - redis-server
+
+  redis-server:
+    image: redis:6
+    ports: ['127.0.0.1:6379:6379']
+    command: redis-server /etc/redis/redis.conf
+    volumes:
+      - ./dev/redis.conf:/etc/redis/redis.conf:Z,ro
+      - ./dev/tls/:/srv/tls/:Z,ro
