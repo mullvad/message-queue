@@ -14,9 +14,14 @@ type PubSub struct {
 }
 
 // New creates a new PubSub client and establishes the connection to redis
-func New(address string, password string) (*PubSub, error) {
+func New(address string, password string, tls bool) (*PubSub, error) {
+	var dialOpts []radix.DialOpt
+	dialOpts = append(dialOpts, radix.DialAuthPass(password))
+	if tls {
+		dialOpts = append(dialOpts, radix.DialUseTLS(nil))
+	}
 	connFunc := radix.PersistentPubSubConnFunc(func(string, address string) (radix.Conn, error) {
-		return radix.Dial("tcp", address, radix.DialAuthPass(password))
+		return radix.Dial("tcp", address, dialOpts...)
 	})
 
 	conn, err := radix.PersistentPubSubWithOpts("tcp", address, connFunc, radix.PersistentPubSubAbortAfter(3))

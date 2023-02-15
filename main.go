@@ -62,6 +62,7 @@ func main() {
 	bufferSize := flag.Int("buffer-size", 100, "client buffer size")
 	redisAddress := flag.String("redis-address", "", "address of the redis server")
 	redisPassword := flag.String("redis-password", "", "password for the redis server")
+	redisTLS := flag.Bool("redis-tls", false, "use TLS when connecting to the redis server")
 	channels := flag.String("channels", "", "comma-delimited list of channels to listen and broadcast to")
 	statsdAddress := flag.String("statsd-address", "127.0.0.1:8125", "statsd address to send metrics to")
 
@@ -92,7 +93,7 @@ func main() {
 	defer shutdown()
 
 	// Set up the pubsub listener
-	p, err = pubsub.New(*redisAddress, *redisPassword)
+	p, err = pubsub.New(*redisAddress, *redisPassword, *redisTLS)
 	if err != nil {
 		log.Fatal("error initializing pubsub: ", err)
 	}

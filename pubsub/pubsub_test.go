@@ -8,8 +8,8 @@ import (
 	"github.com/mullvad/message-queue/pubsub"
 )
 
-// This tests assumes that there's a sentinel running locally on 127.0.0.1:26379, with a group named "group"
-// Both the sentinels and the redis servers should have authentication enabled, with the password "foobar"
+// This test assumes that there's a redis server running locally on
+// 127.0.0.1:26379, with authentication enabled, with the password "p4ssw0rd"
 
 const (
 	redisAddress  = "redis://127.0.0.1:6379"
@@ -23,7 +23,7 @@ func TestPubSub(t *testing.T) {
 		t.Skip("skipping integration tests")
 	}
 
-	p, err := pubsub.New(redisAddress, redisPassword)
+	p, err := pubsub.New(redisAddress, redisPassword, true)
 	if err != nil {
 		t.Fatal(err)
 	}

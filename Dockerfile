@@ -9,6 +9,9 @@ RUN go install -v -ldflags="-X 'main.Branch=${branch}' -X 'main.Revision=${revis
 
 # Copy message-queue binary
 FROM docker.io/library/debian:bullseye-slim@sha256:d51d5c391d202d5e2e0294a9df6ff077ed40583b11831d347d418690da496c50
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY --from=gobuilder /go/bin/message-queue .
 EXPOSE 8080
