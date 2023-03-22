@@ -9,6 +9,11 @@ RUN go install -v -ldflags="-X 'main.Branch=${branch}' -X 'main.Revision=${revis
 
 # Copy message-queue binary
 FROM docker.io/library/debian:bullseye-slim@sha256:77f46c1cf862290e750e913defffb2828c889d291a93bdd10a7a0597720948fc
+# Same ARGs as in the first stage to set labels in the final image
+ARG version
+ARG branch
+ARG revision
+LABEL org.opencontainers.image.version="$version" org.opencontainers.image.ref.name="$branch" org.opencontainers.image.revision="$revision"
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
