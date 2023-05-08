@@ -7,7 +7,7 @@ require (
 	github.com/infosum/statsd v2.1.2+incompatible
 	github.com/jamiealquiza/envy v1.1.0
 	github.com/mediocregopher/radix/v3 v3.8.1
-	github.com/prometheus/client_golang v1.15.0
+	github.com/prometheus/client_golang v1.15.1
 	nhooyr.io/websocket v1.8.7
 )
 
