@@ -5,16 +5,16 @@
 # Learn more from ready-to-use templates: https://www.gitpod.io/docs/introduction/getting-started/quickstart
 
 tasks:
-  - init: |
-      sudo apt update
-      go get
-
   - name: Redis Server
-    init: sudo apt install redis-server -y
+    init: |
+      sudo apt update -y
+      sudo apt install redis-server -y
     command: redis-server
   
   - name: Queue Server
-  - command: go run . -redis-address=127.0.0.1:6379 -channels=main,test
+  - command: |
+      go get
+      go run . -redis-address=127.0.0.1:6379 -channels=main,test
 
   - name: Websocat WS Client
     init: |
