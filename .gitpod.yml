@@ -19,10 +19,11 @@ tasks:
       gp ports await 6379
       redis-cli
   
-  - name: Queue Server
+  - name: Message Queue Server
     init: go get
     command: |
       clear
+      gp ports await 9102
       go run . -redis-address=127.0.0.1:6379 -channels=main,test
 
   - name: Websocat WS Client
@@ -35,3 +36,18 @@ tasks:
       echo "Connected to 'main' channel"
       websocat ws://localhost:8080/channel/main --protocol message-queue-v1 
 
+  - name: StatsD Exporter Server
+    init: docker pull prom/statsd-exporter
+    command: | 
+      clear
+      gp ports await 9090
+      docker run --network host \
+      -p 9123:9102 -p 8125:8125/udp prom/statsd-exporter \
+      --statsd.listen-udp=:8125 --web.listen-address=:9102
+
+  - name: Prometheus Server
+    init: |
+      docker pull prom/prometheus
+    command: |
+      clear
+      docker run --network=host -p 9090:9090 -v ./prom/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus

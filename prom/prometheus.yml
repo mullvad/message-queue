@@ -1,0 +1,10 @@
+scrape_configs:
+  - job_name: 'message-queue'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['127.0.0.1:9999']
+
+  - job_name: 'statsd_exporter'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['127.0.0.1:9102']
