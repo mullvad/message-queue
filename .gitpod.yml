@@ -51,3 +51,27 @@ tasks:
     command: |
       clear
       docker run --network=host -p 9090:9090 -v ./prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
+
+ports:
+  - name: Redis Server
+    port: 6379
+    onOpen: ignore
+
+  - name: StatsD Exporter
+    port: 9102
+    onOpen: ignore
+  
+  - name: Message Queue Server
+    port: 8080
+    onOpen: notify
+
+  - name: Prometheus
+    port: 9090
+    onOpen: open-browser
+  
+  - name: Message Queue Prometheus Metrics Endpoint
+    port: 9999
+
+  - name: StatsD Default port
+    port: 9125
+    onOpen: ignore
