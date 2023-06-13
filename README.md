@@ -1,7 +1,7 @@
 # message-queue
+[![Open with Gitpod](https://img.shields.io/badge/Open%20with-Gitpod-908a85?logo=gitpod)](https://gitpod.io/from-referrer/)
 
 A message queue that reads messages from redis pubsub, and publishes them to clients connected via websocket
-
 ## Building
 
 Clone this repository, and run `make` to build.
