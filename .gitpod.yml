@@ -9,12 +9,15 @@ tasks:
     init: |
       sudo apt update -y
       sudo apt install redis-server -y
+    command: |
       clear
-    command: redis-server
+      redis-server
 
   - name: Redis CLI
-    init: gp ports await 6379
-    command: redis-cli
+    command: |
+      clear
+      gp ports await 6379
+      redis-cli
   
   - name: Queue Server
     init: go get
@@ -27,6 +30,7 @@ tasks:
       sudo wget https://github.com/vi/websocat/releases/download/v1.11.0/websocat.x86_64-unknown-linux-musl -O /bin/websocat
       sudo chmod +x /bin/websocat
     command: |
+      clear
       gp ports await 8080
       echo "Connected to 'main' channel"
       websocat ws://localhost:8080/channel/main --protocol message-queue-v1 
