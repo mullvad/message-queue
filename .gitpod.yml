@@ -50,4 +50,4 @@ tasks:
       docker pull prom/prometheus
     command: |
       clear
-      docker run --network=host -p 9090:9090 -v ./prom/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
+      docker run --network=host -p 9090:9090 -v ./prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
