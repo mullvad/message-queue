@@ -13,14 +13,16 @@ tasks:
     init: sudo apt install redis-server -y
     command: redis-server
   
-  - name: message-queue Server
-  - command: go run . -redis-address=127.0.0.1:6379 -channels=main
+  - name: Queue Server
+  - command: go run . -redis-address=127.0.0.1:6379 -channels=main,test
 
   - name: Websocat WS Client
     init: |
       sudo wget https://github.com/vi/websocat/releases/download/v1.11.0/websocat.x86_64-unknown-linux-musl -O /bin/websocat
       sudo chmod +x /bin/websocat
-    command: websocat ws://localhost:8080/channel/main --protocol message-queue-v1 
+    command: |
+      gp ports await 8080
+      websocat ws://localhost:8080/channel/main --protocol message-queue-v1 
 
   
 
