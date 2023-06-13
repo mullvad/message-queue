@@ -9,6 +9,7 @@ tasks:
     init: |
       sudo apt update -y
       sudo apt install redis-server -y
+      clear
     command: redis-server
 
   - name: Redis CLI
@@ -17,7 +18,9 @@ tasks:
   
   - name: Queue Server
     init: go get
-    command: go run . -redis-address=127.0.0.1:6379 -channels=main,test
+    command: |
+      clear
+      go run . -redis-address=127.0.0.1:6379 -channels=main,test
 
   - name: Websocat WS Client
     init: |
@@ -25,5 +28,6 @@ tasks:
       sudo chmod +x /bin/websocat
     command: |
       gp ports await 8080
+      echo "Connected to 'main' channel"
       websocat ws://localhost:8080/channel/main --protocol message-queue-v1 
 
