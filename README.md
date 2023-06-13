@@ -1,6 +1,4 @@
 # message-queue
-[![Open with Gitpod](https://img.shields.io/badge/Open%20with-Gitpod-908a85?logo=gitpod)](https://gitpod.io/from-referrer/)
-
 A message queue that reads messages from redis pubsub, and publishes them to clients connected via websocket
 ## Building
 
@@ -10,6 +8,9 @@ This will produce a `message-queue` binary and put them in your `GOBIN`.
 ## Testing
 To run the tests, run `make test`.
 To run the integration tests as well, run `go test ./...`. Note that this requires a local instance of redis and redis-sentinel.
+
+## Run In Browser
+[![Open with Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/from-referrer/)
 
 ## Usage
 All options can be either configured via command line flags, or via their respective environment variable, as denoted by `[ENVIRONMENT_VARIABLE]`.
