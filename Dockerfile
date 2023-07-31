@@ -1,5 +1,5 @@
 # Golang build step / Debian Buster 21.01 / Golang 1.15.7
-FROM docker.io/library/golang:1.19.11@sha256:2c99dd5bc507faba422eb0a2661b675250001815a08335a8cc98af196d0291db AS gobuilder
+FROM docker.io/library/golang:1.19.11@sha256:e8579154cca7ee15a5ea89ba7ad3cc3967253c2cd3010fd28fa0573b8d06c839 AS gobuilder
 ARG version
 ARG branch
 ARG revision
