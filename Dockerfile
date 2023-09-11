@@ -8,7 +8,7 @@ WORKDIR /message-queue
 RUN go install -v -ldflags="-X 'main.Branch=${branch}' -X 'main.Revision=${revision}' -X 'main.Version=${version}'" ./...
 
 # Copy message-queue binary
-FROM docker.io/library/debian:bullseye-slim@sha256:61386e11b5256efa33823cbfafd668dd651dbce810b24a8fb7b2e32fa7f65a85
+FROM docker.io/library/debian:bullseye-slim@sha256:3bc5e94a0e8329c102203c3f5f26fd67835f0c81633dd6949de0557867a87fac
 # Same ARGs as in the first stage to set labels in the final image
 ARG version
 ARG branch
