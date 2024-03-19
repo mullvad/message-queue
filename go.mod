@@ -1,6 +1,8 @@
 module github.com/mullvad/message-queue
 
-go 1.19
+go 1.21
+
+toolchain go1.21.8
 
 require (
 	github.com/gorilla/mux v1.8.1
