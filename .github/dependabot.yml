@@ -11,3 +11,10 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    ignore:
+      # We don't want automatic language updates for minor and major versions
+      # (see ADR 17).
+      - dependency-name: "library/python"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+      - dependency-name: "library/golang"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
